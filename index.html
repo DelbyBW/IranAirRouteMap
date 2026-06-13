@@ -21,7 +21,6 @@ body{margin:0;font-family:Segoe UI;background:#0b1220;}
  width:220px;
 }
 
-/* FILTER BUTTONS */
 button{
  margin:3px;
  padding:6px 8px;
@@ -29,16 +28,12 @@ button{
  border:none;
  cursor:pointer;
  width:100%;
- background:#555; /* OFF = gray */
+ background:#555;
  color:white;
  transition:0.2s;
 }
+button.on{background:#2ecc71;}
 
-button.on{
- background:#2ecc71; /* ON = green */
-}
-
-/* LEGEND */
 #legend{
  margin-top:8px;
  border-top:1px solid rgba(255,255,255,0.2);
@@ -82,7 +77,6 @@ button.on{
 <div id="map"></div>
 
 <div id="panel">
-
 <b>Filters</b>
 
 <button class="on" onclick="toggleFilter('Active')">Active</button>
@@ -97,7 +91,6 @@ button.on{
 <div class="row"><div class="dot" style="background:#3498db"></div>Seasonal</div>
 <div class="row"><div class="dot" style="background:#e74c3c"></div>Terminated</div>
 </div>
-
 </div>
 
 <div id="sidebar">
@@ -109,37 +102,39 @@ button.on{
 
 <script>
 
+/* ================= HUB ================= */
 const hub=[35.4161,51.1522];
 
-/* ================= FULL ROUTE DATA (UNCHANGED) ================= */
+/* ================= DATA ================= */
 const DATA = [
 {name:"London",lat:51.47,lon:-0.45,iata:"LHR",status:"Suspended",inbound:["IR710"],outbound:["IR711"]},
 {name:"Paris",lat:48.85,lon:2.35,iata:"CDG",status:"Suspended",inbound:["IR732"],outbound:["IR733"]},
 {name:"Frankfurt",lat:50.11,lon:8.68,iata:"FRA",status:"Suspended",inbound:["IR720"],outbound:["IR721"]},
 {name:"Vienna",lat:48.21,lon:16.37,iata:"VIE",status:"Suspended",inbound:["IR716"],outbound:["IR717"]},
 {name:"Istanbul",lat:41.01,lon:28.97,iata:"IST",status:"Active",inbound:["IR718","IR768"],outbound:["IR719","IR769"]},
-{name:"Gothenburg",lat:57.66,lon:12.28,iata:"GOT",status:"Terminated",inbound:["IR734","IR726"],outbound:["IR735","IR727"]},
-{name:"Munich",lat:48.35,lon:11.78,iata:"MUC",status:"Suspended",inbound:["IR726"],outbound:["IR727"]},
-{name:"Rome",lat:41.80,lon:12.23,iata:"FCO",status:"Suspended",inbound:["IR740"],outbound:["IR741"]},
-{name:"Athens",lat:37.98,lon:23.72,iata:"ATH",status:"Terminated",inbound:["IR742"],outbound:["IR743"]},
+{name:"Gothenburg",lat:57.66,lon:12.28,iata:"GOT",status:"Terminated",inbound:["IR726"],outbound:["IR727"]},
+{name:"Munich",lat:48.35,lon:11.78,iata:"MUC",status:"Suspended",inbound:["IR736"],outbound:["IR737"]},
+{name:"Rome",lat:41.80,lon:12.23,iata:"FCO",status:"Suspended",inbound:["IR738"],outbound:["IR739"]},
 {name:"Stockholm",lat:59.65,lon:17.93,iata:"ARN",status:"Terminated",inbound:["IR712"],outbound:["IR713"]},
-{name:"Hamburg",lat:53.63,lon:9.99,iata:"HAM",status:"Suspended",inbound:["IR724"],outbound:["IR723"]},
+{name:"Hamburg",lat:53.63,lon:9.99,iata:"HAM",status:"Suspended",inbound:["IR722"],outbound:["IR723"]},
+{name:"Amsterdam",lat:52.31,lon:4.76,iata:"AMS",status:"Suspended",inbound:["IR724"],outbound:["IR725"]},
 {name:"Cologne",lat:50.94,lon:6.96,iata:"CGN",status:"Suspended",inbound:["IR728"],outbound:["IR729"]},
-{name:"Baku",lat:40.46,lon:50.05,iata:"GYD",status:"Active",inbound:["IR744"],outbound:["IR745"]},
-{name:"Yerevan",lat:40.13,lon:44.39,iata:"EVN",status:"Seasonal",inbound:["IR736"],outbound:["IR737"]},
-{name:"Kuwait City",lat:29.30,lon:47.98,iata:"KWI",status:"Active",inbound:["IR652"],outbound:["IR653"]},
-{name:"Dubai",lat:25.25,lon:55.36,iata:"DXB",status:"Active",inbound:["IR658","IR676"],outbound:["IR657","IR675"]},
-{name:"Doha",lat:25.27,lon:51.61,iata:"DOH",status:"Active",inbound:["IR491"],outbound:["IR490"]},
-{name:"Kabul",lat:34.56,lon:69.21,iata:"KBL",status:"Terminated",inbound:["IR840"],outbound:["IR841"]},
+{name:"Madrid",lat:40.49,lon:-3.56,iata:"MAD",status:"Suspended",inbound:["IR730"],outbound:["IR731"]},
+{name:"St. Petersburg",lat:59.80,lon:30.26,iata:"LED",status:"Terminated",inbound:["IR740"],outbound:["IR741"]},
+{name:"Yerevan",lat:40.13,lon:44.39,iata:"EVN",status:"Seasonal",inbound:["IR742"],outbound:["IR743"]},
+{name:"Belgrade",lat:44.82,lon:20.31,iata:"BEG",status:"Terminated",inbound:["IR744"],outbound:["IR745"]},
+{name:"Baku",lat:40.46,lon:50.05,iata:"GYD",status:"Active",inbound:["IR748"],outbound:["IR749"]},
+{name:"Kuwait City",lat:29.30,lon:47.98,iata:"KWI",status:"Active",inbound:["IR600"],outbound:["IR601"]},
+{name:"Dubai",lat:25.25,lon:55.36,iata:"DXB",status:"Active",inbound:["IR659"],outbound:["IR658"]},
+{name:"Doha",lat:25.27,lon:51.61,iata:"DOH",status:"Active",inbound:["IR621"],outbound:["IR620"]},
+{name:"Kabul",lat:34.56,lon:69.21,iata:"KBL",status:"Terminated",inbound:["IR819"],outbound:["IR818"]},
 {name:"Karachi",lat:24.90,lon:67.16,iata:"KHI",status:"Active",inbound:["IR813"],outbound:["IR812"]},
 {name:"Mumbai",lat:19.08,lon:72.87,iata:"BOM",status:"Active",inbound:["IR811"],outbound:["IR810"]},
-{name:"Bangkok",lat:13.69,lon:100.75,iata:"BKK",status:"Terminated",inbound:["IR805"],outbound:["IR804"]},
-{name:"Kuala Lumpur",lat:2.74,lon:101.70,iata:"KUL",status:"Terminated",inbound:["IR815"],outbound:["IR814"]},
 {name:"Singapore",lat:1.35,lon:103.99,iata:"SIN",status:"Terminated",inbound:["IR815E"],outbound:["IR814E"]},
 {name:"Beijing",lat:40.08,lon:116.58,iata:"PEK",status:"Terminated",inbound:["IR801"],outbound:["IR800"]},
 {name:"Seoul",lat:37.46,lon:126.44,iata:"ICN",status:"Terminated",inbound:["IR801E"],outbound:["IR800E"]},
 {name:"Tokyo",lat:35.77,lon:140.39,iata:"NRT",status:"Terminated",inbound:["IR801"],outbound:["IR800"]},
-{name:"New York",lat:40.64,lon:-73.78,iata:"JFK",status:"Terminated",inbound:["IR202"],outbound:["IR201"]}
+{name:"New York",lat:40.64,lon:-73.78,iata:"JFK",status:"Terminated",inbound:["IR100"],outbound:["IR101"]}
 ];
 
 /* ================= MAP ================= */
@@ -150,6 +145,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 }).addTo(map);
 
 let lines=[];
+let markers=[];
+
 let activeFilters={
  Active:true,
  Suspended:true,
@@ -159,7 +156,7 @@ let activeFilters={
 
 const tip=document.getElementById("tip");
 
-/* ================= COLOR ================= */
+/* ================= HELPERS ================= */
 function color(s){
  if(s==="Active") return "#2ecc71";
  if(s==="Suspended") return "#f39c12";
@@ -167,7 +164,6 @@ function color(s){
  return "#e74c3c";
 }
 
-/* ================= CURVE ================= */
 function curve(a,b,n=80){
  const [lat1,lon1]=a,[lat2,lon2]=b;
  const toRad=x=>x*Math.PI/180;
@@ -198,13 +194,6 @@ function curve(a,b,n=80){
  return pts;
 }
 
-/* ================= LATEST USED ================= */
-function latest(arr){
- return arr.length>1
- ? arr.map((x,i)=> i===0 ? x+" (Latest used)" : x)
- : arr;
-}
-
 /* ================= UI ================= */
 function showTip(e,r){
  tip.style.display="block";
@@ -218,29 +207,26 @@ function showTip(e,r){
  tip.style.top=e.originalEvent.pageY+10+"px";
 }
 
-function hideTip(){tip.style.display="none";}
+function closeSidebar(){
+ document.getElementById("sidebar").classList.remove("active");
+}
 
 function openSidebar(r){
  document.getElementById("sidebar").classList.add("active");
-
  document.getElementById("content").innerHTML=`
  <h2>${r.name}</h2>
  <b>IATA:</b> ${r.iata}<br>
  <b>Status:</b> ${r.status}<br><br>
 
- <h3>Outbound (To)</h3>
- ${latest(r.outbound).join(", ")}<br><br>
-
- <h3>Inbound (From)</h3>
- ${latest(r.inbound).join(", ")}
+ <h3>Outbound</h3>${r.outbound.join(", ")}<br><br>
+ <h3>Inbound</h3>${r.inbound.join(", ")}
  `;
 }
 
-/* ================= MULTI FILTER ================= */
-function toggleFilter(status){
- activeFilters[status]=!activeFilters[status];
+/* ================= FILTERS ================= */
+function toggleFilter(s){
+ activeFilters[s]=!activeFilters[s];
 
- // button UI sync
  document.querySelectorAll("button").forEach(b=>{
   const t=b.innerText.trim();
   if(activeFilters[t]!==undefined){
@@ -255,7 +241,10 @@ function toggleFilter(status){
 function render(){
 
  lines.forEach(l=>map.removeLayer(l));
+ markers.forEach(m=>map.removeLayer(m));
+
  lines=[];
+ markers=[];
 
  DATA.forEach(r=>{
 
@@ -270,7 +259,7 @@ function render(){
   }).addTo(map);
 
   line.on("mousemove",(e)=>showTip(e,r));
-  line.on("mouseout",hideTip);
+  line.on("mouseout",()=>tip.style.display="none");
   line.on("click",()=>openSidebar(r));
 
   lines.push(line);
@@ -283,8 +272,10 @@ function render(){
   }).addTo(map);
 
   marker.on("mousemove",(e)=>showTip(e,r));
-  marker.on("mouseout",hideTip);
+  marker.on("mouseout",()=>tip.style.display="none");
   marker.on("click",()=>openSidebar(r));
+
+  markers.push(marker);
  });
 
 }
@@ -292,5 +283,6 @@ function render(){
 render();
 
 </script>
+
 </body>
 </html>
