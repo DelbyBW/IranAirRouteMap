@@ -11,7 +11,6 @@
 body{margin:0;font-family:Segoe UI;background:#0b1220;}
 #map{height:100vh;width:100%;}
 
-/* PANEL */
 #panel{
  position:absolute;top:10px;left:10px;z-index:9999;
  background:rgba(20,25,40,0.9);
@@ -44,7 +43,6 @@ button.on{background:#2ecc71;}
 .row{display:flex;align-items:center;margin:3px 0;}
 .dot{width:10px;height:10px;border-radius:50%;margin-right:6px;}
 
-/* SIDEBAR */
 #sidebar{
  position:absolute;right:-380px;top:0;
  width:360px;height:100vh;
@@ -57,7 +55,6 @@ button.on{background:#2ecc71;}
 }
 #sidebar.active{right:0;}
 
-/* TOOLTIP */
 #tip{
  position:absolute;
  background:rgba(0,0,0,0.85);
@@ -107,34 +104,62 @@ const hub=[35.4161,51.1522];
 
 /* ================= DATA ================= */
 const DATA = [
+
 {name:"London",lat:51.47,lon:-0.45,iata:"LHR",status:"Suspended",inbound:["IR710"],outbound:["IR711"]},
 {name:"Paris",lat:48.85,lon:2.35,iata:"CDG",status:"Suspended",inbound:["IR732"],outbound:["IR733"]},
 {name:"Frankfurt",lat:50.11,lon:8.68,iata:"FRA",status:"Suspended",inbound:["IR720"],outbound:["IR721"]},
 {name:"Vienna",lat:48.21,lon:16.37,iata:"VIE",status:"Suspended",inbound:["IR716"],outbound:["IR717"]},
+
 {name:"Istanbul",lat:41.01,lon:28.97,iata:"IST",status:"Active",inbound:["IR718","IR768"],outbound:["IR719","IR769"]},
+
 {name:"Gothenburg",lat:57.66,lon:12.28,iata:"GOT",status:"Terminated",inbound:["IR726"],outbound:["IR727"]},
-{name:"Munich",lat:48.35,lon:11.78,iata:"MUC",status:"Suspended",inbound:["IR736"],outbound:["IR737"]},
-{name:"Rome",lat:41.80,lon:12.23,iata:"FCO",status:"Suspended",inbound:["IR738"],outbound:["IR739"]},
 {name:"Stockholm",lat:59.65,lon:17.93,iata:"ARN",status:"Terminated",inbound:["IR712"],outbound:["IR713"]},
+
+{name:"Munich",lat:48.35,lon:11.78,iata:"MUC",status:"Suspended",inbound:["IR736"],outbound:["IR737"]},
 {name:"Hamburg",lat:53.63,lon:9.99,iata:"HAM",status:"Suspended",inbound:["IR722"],outbound:["IR723"]},
 {name:"Amsterdam",lat:52.31,lon:4.76,iata:"AMS",status:"Suspended",inbound:["IR724"],outbound:["IR725"]},
 {name:"Cologne",lat:50.94,lon:6.96,iata:"CGN",status:"Suspended",inbound:["IR728"],outbound:["IR729"]},
 {name:"Madrid",lat:40.49,lon:-3.56,iata:"MAD",status:"Suspended",inbound:["IR730"],outbound:["IR731"]},
+{name:"Rome",lat:41.80,lon:12.23,iata:"FCO",status:"Suspended",inbound:["IR738"],outbound:["IR739"]},
+
+{name:"Milan",lat:45.63,lon:8.72,iata:"MXP",status:"Suspended",inbound:["IR750"],outbound:["IR751"]},
+{name:"Manchester",lat:53.35,lon:-2.27,iata:"MAN",status:"Terminated",inbound:["IR752"],outbound:["IR753"]},
+{name:"Rimini",lat:44.02,lon:12.61,iata:"RMI",status:"Suspended",inbound:["IR754"],outbound:["IR755"]},
+
 {name:"St. Petersburg",lat:59.80,lon:30.26,iata:"LED",status:"Terminated",inbound:["IR740"],outbound:["IR741"]},
-{name:"Yerevan",lat:40.13,lon:44.39,iata:"EVN",status:"Seasonal",inbound:["IR742"],outbound:["IR743"]},
 {name:"Belgrade",lat:44.82,lon:20.31,iata:"BEG",status:"Terminated",inbound:["IR744"],outbound:["IR745"]},
+
+{name:"Isparta",lat:37.86,lon:30.37,iata:"ISE",status:"Terminated",inbound:["IR756"],outbound:["IR757"]},
+{name:"Izmir",lat:38.29,lon:27.15,iata:"ADB",status:"Seasonal",inbound:["IR758"],outbound:["IR759"]},
+{name:"Denizli",lat:37.79,lon:29.70,iata:"DNZ",status:"Terminated",inbound:["IR772"],outbound:["IR773"]},
+{name:"Ankara",lat:40.13,lon:32.99,iata:"ESB",status:"Terminated",inbound:["IR714"],outbound:["IR715"]},
+
+{name:"Yerevan",lat:40.13,lon:44.39,iata:"EVN",status:"Seasonal",inbound:["IR742"],outbound:["IR743"]},
 {name:"Baku",lat:40.46,lon:50.05,iata:"GYD",status:"Active",inbound:["IR748"],outbound:["IR749"]},
+
 {name:"Kuwait City",lat:29.30,lon:47.98,iata:"KWI",status:"Active",inbound:["IR600"],outbound:["IR601"]},
-{name:"Dubai",lat:25.25,lon:55.36,iata:"DXB",status:"Active",inbound:["IR659"],outbound:["IR658"]},
 {name:"Doha",lat:25.27,lon:51.61,iata:"DOH",status:"Active",inbound:["IR621"],outbound:["IR620"]},
+{name:"Dubai",lat:25.25,lon:55.36,iata:"DXB",status:"Active",inbound:["IR659"],outbound:["IR658"]},
+
+{name:"Baghdad",lat:33.26,lon:44.23,iata:"BGW",status:"Active",inbound:["IR678"],outbound:["IR679"]},
+{name:"Najaf",lat:31.99,lon:44.40,iata:"NJF",status:"Seasonal",inbound:["IR674"],outbound:["IR675"]},
+{name:"Beirut",lat:33.82,lon:35.49,iata:"BEY",status:"Suspended",inbound:["IR660"],outbound:["IR661"]},
+{name:"Damascus",lat:33.41,lon:36.52,iata:"DAM",status:"Terminated",inbound:["IR696"],outbound:["IR697"]},
+
+{name:"Jeddah",lat:21.67,lon:39.15,iata:"JED",status:"Seasonal",inbound:["IR1677","IR1691"],outbound:["IR1676","IR1690"]},
+{name:"Medina",lat:24.55,lon:39.70,iata:"MED",status:"Seasonal",inbound:["IR3561","IR3533"],outbound:["IR3560","IR3532"]},
+
 {name:"Kabul",lat:34.56,lon:69.21,iata:"KBL",status:"Terminated",inbound:["IR819"],outbound:["IR818"]},
 {name:"Karachi",lat:24.90,lon:67.16,iata:"KHI",status:"Active",inbound:["IR813"],outbound:["IR812"]},
 {name:"Mumbai",lat:19.08,lon:72.87,iata:"BOM",status:"Active",inbound:["IR811"],outbound:["IR810"]},
+
 {name:"Singapore",lat:1.35,lon:103.99,iata:"SIN",status:"Terminated",inbound:["IR815E"],outbound:["IR814E"]},
 {name:"Beijing",lat:40.08,lon:116.58,iata:"PEK",status:"Terminated",inbound:["IR801"],outbound:["IR800"]},
 {name:"Seoul",lat:37.46,lon:126.44,iata:"ICN",status:"Terminated",inbound:["IR801E"],outbound:["IR800E"]},
 {name:"Tokyo",lat:35.77,lon:140.39,iata:"NRT",status:"Terminated",inbound:["IR801"],outbound:["IR800"]},
+
 {name:"New York",lat:40.64,lon:-73.78,iata:"JFK",status:"Terminated",inbound:["IR100"],outbound:["IR101"]}
+
 ];
 
 /* ================= MAP ================= */
@@ -144,29 +169,22 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
  attribution:'© OSM'
 }).addTo(map);
 
-let lines=[];
-let markers=[];
+let lines=[],markers=[];
 
-let activeFilters={
- Active:true,
- Suspended:true,
- Seasonal:true,
- Terminated:true
-};
+let activeFilters={Active:true,Suspended:true,Seasonal:true,Terminated:true};
 
 const tip=document.getElementById("tip");
 
-/* ================= HELPERS ================= */
+/* ================= FUNCTIONS ================= */
 function color(s){
- if(s==="Active") return "#2ecc71";
- if(s==="Suspended") return "#f39c12";
- if(s==="Seasonal") return "#3498db";
- return "#e74c3c";
+ return s==="Active"?"#2ecc71":
+ s==="Suspended"?"#f39c12":
+ s==="Seasonal"?"#3498db":"#e74c3c";
 }
 
 function curve(a,b,n=80){
- const [lat1,lon1]=a,[lat2,lon2]=b;
  const toRad=x=>x*Math.PI/180;
+ const [lat1,lon1]=a,[lat2,lon2]=b;
 
  const φ1=toRad(lat1),λ1=toRad(lon1);
  const φ2=toRad(lat2),λ2=toRad(lon2);
@@ -186,98 +204,72 @@ function curve(a,b,n=80){
   let y=A*Math.cos(φ1)*Math.sin(λ1)+B*Math.cos(φ2)*Math.sin(λ2);
   let z=A*Math.sin(φ1)+B*Math.sin(φ2);
 
-  pts.push([
-   Math.atan2(z,Math.sqrt(x*x+y*y))*180/Math.PI,
-   Math.atan2(y,x)*180/Math.PI
-  ]);
+  pts.push([Math.atan2(z,Math.sqrt(x*x+y*y))*180/Math.PI,
+            Math.atan2(y,x)*180/Math.PI]);
  }
  return pts;
 }
 
-/* ================= UI ================= */
 function showTip(e,r){
  tip.style.display="block";
- tip.innerHTML=`
- <b>${r.name}</b><br>
+ tip.innerHTML=`<b>${r.name}</b><br>
  From: ${r.inbound.join("/")}<br>
  To: ${r.outbound.join("/")}<br>
- ${r.status}
- `;
+ ${r.status}`;
  tip.style.left=e.originalEvent.pageX+10+"px";
  tip.style.top=e.originalEvent.pageY+10+"px";
 }
 
-function closeSidebar(){
- document.getElementById("sidebar").classList.remove("active");
-}
+function closeSidebar(){document.getElementById("sidebar").classList.remove("active");}
 
 function openSidebar(r){
  document.getElementById("sidebar").classList.add("active");
- document.getElementById("content").innerHTML=`
- <h2>${r.name}</h2>
- <b>IATA:</b> ${r.iata}<br>
- <b>Status:</b> ${r.status}<br><br>
-
- <h3>Outbound</h3>${r.outbound.join(", ")}<br><br>
- <h3>Inbound</h3>${r.inbound.join(", ")}
- `;
+ document.getElementById("content").innerHTML=
+ `<h2>${r.name}</h2><b>${r.iata}</b><br>${r.status}<br><br>
+ <b>Outbound</b><br>${r.outbound.join(", ")}<br><br>
+ <b>Inbound</b><br>${r.inbound.join(", ")}`;
 }
 
-/* ================= FILTERS ================= */
 function toggleFilter(s){
  activeFilters[s]=!activeFilters[s];
 
  document.querySelectorAll("button").forEach(b=>{
-  const t=b.innerText.trim();
-  if(activeFilters[t]!==undefined){
-   b.classList.toggle("on",activeFilters[t]);
-  }
+  if(activeFilters[b.innerText.trim()]!==undefined)
+   b.classList.toggle("on",activeFilters[b.innerText.trim()]);
  });
 
  render();
 }
 
-/* ================= RENDER ================= */
 function render(){
-
  lines.forEach(l=>map.removeLayer(l));
  markers.forEach(m=>map.removeLayer(m));
-
- lines=[];
- markers=[];
+ lines=[];markers=[];
 
  DATA.forEach(r=>{
-
   if(!activeFilters[r.status]) return;
 
   const path=curve(hub,[r.lat,r.lon]);
 
   const line=L.polyline(path,{
-   color:color(r.status),
-   weight:3,
-   opacity:0.9
+   color:color(r.status),weight:3,opacity:0.9
   }).addTo(map);
 
   line.on("mousemove",(e)=>showTip(e,r));
   line.on("mouseout",()=>tip.style.display="none");
   line.on("click",()=>openSidebar(r));
 
-  lines.push(line);
-
   const marker=L.circleMarker([r.lat,r.lon],{
-   radius:6,
-   color:"#111",
-   fillColor:"#fff",
-   fillOpacity:1
+   radius:6,color:"#111",fillColor:"#fff",fillOpacity:1
   }).addTo(map);
 
   marker.on("mousemove",(e)=>showTip(e,r));
   marker.on("mouseout",()=>tip.style.display="none");
   marker.on("click",()=>openSidebar(r));
 
+  lines.push(line);
   markers.push(marker);
  });
-
 }
 
 render();
