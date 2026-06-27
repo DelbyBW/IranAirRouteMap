@@ -230,10 +230,10 @@ function openSidebar(r){
  const inboundFlight  = r.inbound[0].replace("IR","");
 
  const outboundURL =
- `https://dispatch.simbrief.com/options/custom?orig=OIIE&dest=${r.iata}&airline=IRM&fltnum=${outboundFlight}`;
+ `https://dispatch.simbrief.com/options/custom?orig=OIIE&dest=${r.iata}&airline=IRA&fltnum=${outboundFlight}`;
 
  const inboundURL =
- `https://dispatch.simbrief.com/options/custom?orig=${r.iata}&dest=OIIE&airline=IRM&fltnum=${inboundFlight}`;
+ `https://dispatch.simbrief.com/options/custom?orig=${r.iata}&dest=OIIE&airline=IRA&fltnum=${inboundFlight}`;
 
  document.getElementById("content").innerHTML=`
  <h2>${r.name}</h2>
