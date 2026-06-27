@@ -223,13 +223,36 @@ function showTip(e,r){
 function closeSidebar(){document.getElementById("sidebar").classList.remove("active");}
 
 function openSidebar(r){
- document.getElementById("sidebar").classList.add("active");
- document.getElementById("content").innerHTML=
- `<h2>${r.name}</h2><b>${r.iata}</b><br>${r.status}<br><br>
- <b>Outbound</b><br>${r.outbound.join(", ")}<br><br>
- <b>Inbound</b><br>${r.inbound.join(", ")}`;
-}
 
+ document.getElementById("sidebar").classList.add("active");
+
+ const outboundFlight = r.outbound[0].replace("IR","");
+ const inboundFlight  = r.inbound[0].replace("IR","");
+
+ const outboundURL =
+ `https://dispatch.simbrief.com/options/custom?orig=OIIE&dest=${r.iata}&airline=IRM&fltnum=${outboundFlight}`;
+
+ const inboundURL =
+ `https://dispatch.simbrief.com/options/custom?orig=${r.iata}&dest=OIIE&airline=IRM&fltnum=${inboundFlight}`;
+
+ document.getElementById("content").innerHTML=`
+ <h2>${r.name}</h2>
+ <b>IATA:</b> ${r.iata}<br>
+ <b>Status:</b> ${r.status}<br><br>
+
+ <h3>Outbound (To)</h3>
+ ${r.outbound.join(", ")}<br><br>
+
+ <h3>Inbound (From)</h3>
+ ${r.inbound.join(", ")}<br>
+
+ <button id="outboundBtn" class="dispatchBtn out">✈ Dispatch Outbound</button>
+ <button id="inboundBtn" class="dispatchBtn in">🛬 Dispatch Inbound</button>
+ `;
+
+ document.getElementById("outboundBtn").onclick=()=>window.open(outboundURL,"_blank");
+ document.getElementById("inboundBtn").onclick=()=>window.open(inboundURL,"_blank");
+}
 function toggleFilter(s){
  activeFilters[s]=!activeFilters[s];
 
